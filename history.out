@@ -1,0 +1,70 @@
+    1  id; whoami; getent passwd user1; getent group students; mount | grep " on / "
+    2  mount -o remount,rw /; mount -t proc proc /proc; test -w /etc/passwd && echo rootfs-writable; command -v useradd groupadd chage setcap getcap visudo timedatectl runuser
+    3  if getent passwd 1234; then echo UID_1234_IN_USE; else groupadd -f students && groupadd -f user1 && useradd -m -u 1234 -g students -s /bin/bash user1 && usermod -a -G user1 user1 && chage -M 90 user1; fi; id user1; getent passwd user1; getent group students; chage -l user1
+    4  runuser -u danila -- /usr/bin/passwd >/tmp/passwd-monitor.log 2>&1 & sleep 1; { echo 'RUID EUID PID COMMAND'; ps -eo ruid=,euid=,pid=,comm= | awk '$2 == 0 && $1 != 0 {print}' ; } > /home/danila/mephi-linux-security-2026/processes.out; cat /home/danila/mephi-linux-security-2026/processes.out; ps -eo ruid=,euid=,pid=,comm= | awk '$1 == 1000 && $2 == 0 && $4 == \ passwd\ {print $3}' | xargs -r kill
+    5  cat /tmp/passwd-monitor.log; ps -eo ruid,euid,pid,comm | grep '[p]asswd'
+    6  grep -E "^#includedir|^@includedir|^#include" /etc/sudoers; ls -ld /etc/sudoers /etc/sudoers.d 2>&1; command -v timedatectl; ls -l /usr/bin/cat /usr/bin/chown /usr/bin/passwd
+    7  install -m 0755 /bin/cat /home/user1/cat && chown root:user1 /home/user1/cat && chmod 4750 /home/user1/cat && install -m 0755 /bin/chown /home/user1/chown-cap && chown root:user1 /home/user1/chown-cap && chmod 0750 /home/user1/chown-cap && setcap cap_chown=ep /home/user1/chown-cap && touch /home/user1/capability-test && chown user1:students /home/user1/capability-test && runuser -u user1 -- /home/user1/cat /etc/shadow >/dev/null && echo 'setuid cat read /etc/shadow: OK' > /home/danila/mephi-linux-security-2026/setuid-check.out && runuser -u user1 -- /home/user1/cat /etc/shadow | cut -d: -f1 | head -n 3 | sed 's/$/: <hash redacted>/' >> /home/danila/mephi-linux-security-2026/setuid-check.out && runuser -u user1 -- /home/user1/chown-cap root:root /home/user1/capability-test && stat -c 'owner after capability test: %U:%G' /home/user1/capability-test > /home/danila/mephi-linux-security-2026/capability-check.out && chown user1:students /home/user1/capability-test && getcap /home/user1/chown-cap > /home/danila/mephi-linux-security-2026/getcap.out && echo 'done'
+    8  cat /home/danila/mephi-linux-security-2026/setuid-check.out; cat /home/danila/mephi-linux-security-2026/capability-check.out; cat /home/danila/mephi-linux-security-2026/getcap.out; stat /home/user1 /home/user1/cat /home/user1/chown-cap
+    9  grep -n 'includedir' /etc/sudoers; tail -35 /etc/sudoers
+   10  printf '%s\\n' 'user1 ALL=(root) NOPASSWD: /bin/timedatectl' > /etc/sudoers.d/30-user1-time && chmod 0440 /etc/sudoers.d/30-user1-time && visudo -c
+   11  cat -A /etc/sudoers.d/30-user1-time; ls -l /bin/timedatectl /usr/bin/timedatectl 2>&1
+   12  echo 'user1 ALL=(ALL) NOPASSWD: /usr/bin/timedatectl' > /etc/sudoers.d/30-user1-time && chmod 0440 /etc/sudoers.d/30-user1-time && visudo -c
+   13  chmod 0400 /etc/sudoers.d/30-user1-time && visudo -c -f /etc/sudoers.d/30-user1-time; stat -c '%a %n' /etc/sudoers.d/30-user1-time /etc/sudoers.d/99-sudopw; sudo -l -U user1
+   14  grep -i vbox /proc/modules; find /lib/modules/ -iname 'vboxsf*' 2>/dev/null | head
+   15  grep -i vbox /proc/modules; find /lib/modules/6.12.61-alt1 -iname 'vboxsf*' 2>/dev/null | head
+   16  mkdir -p /mnt/mephi_artifacts && modprobe vboxsf && mount -t vboxsf mephi_artifacts /mnt/mephi_artifacts && touch /mnt/mephi_artifacts/vbox-share-test && ls -la /mnt/mephi_artifacts
+   17  find / -xdev -type f -perm -4000 -print 2>/dev/null | sort > /mnt/mephi_artifacts/files-suid.out; stat /home/user1 > /mnt/mephi_artifacts/stat.out; stat /home/user1/cat >> /mnt/mephi_artifacts/stat.out; stat /home/user1/chown-cap >> /mnt/mephi_artifacts/stat.out; getcap /home/user1/chown-cap > /mnt/mephi_artifacts/getcap.out; cp /etc/passwd /mnt/mephi_artifacts/etc-passwd; cp /etc/group /mnt/mephi_artifacts/etc-group; cp /etc/sudoers /mnt/mephi_artifacts/etc-sudoers; cp /etc/sudoers.d/30-user1-time /mnt/mephi_artifacts/sudoers-user1-time; sed -E 's/:([^:]*):/:<hash-redacted>:/' /etc/shadow > /mnt/mephi_artifacts/etc-shadow.redacted; cp /home/danila/mephi-linux-security-2026/setuid-check.out /mnt/mephi_artifacts/; cp /home/danila/mephi-linux-security-2026/capability-check.out /mnt/mephi_artifacts/; history > /home/danila/history.out; cp /home/danila/history.out /mnt/mephi_artifacts/history.out; ls -l /mnt/mephi_artifacts
+    1  getent group students
+    2  /groupadd student
+    3  groupadd student
+    4  /getent group students
+    5  getent group students
+    6  useradd -m -u 1234 -g students user1
+    7  /useradd -m -u 1234 -g students user1
+    8  sudo -1
+    9  id
+   10  id uname -a
+   11  /groupadd students
+   12  /sudo -1
+   13  sudo
+   14  sudo -1
+   15  sudo -i
+   16  id uname -a
+   17  id danila -a
+   18  getent group students
+   19  groupadd students
+   20  sudo -i
+   21  id
+   22  date
+   23  id; cat /etc/os-release; sudo -n true; echo SUDO_STATUS=$?; lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINTS
+   24  sudo -s
+   25  sudo passwd danila
+   26  sudo passwd danila
+   27  command -v xfce4-terminal; command -v xterm; groups; mount | grep mephi_artifacts; ls -ld /mnt/mephi_artifacts 2>&1; ls /mnt/mephi_artifacts 2>&1
+   28  xfce4-terminal --disable-server --hold --command=/usr/bin/passwd &
+   29  { echo 'RUID EUID PID COMMAND'; ps -eo ruid=,euid=,pid=,comm= | awk '$2 == 0 && $1 != 0 {print}'; } > /mnt/mephi_artifacts/processes.out; cat /mnt/mephi_artifacts/processes.out; history >> ~/history.out; cp ~/history.out /mnt/mephi_artifacts/history.out
+   30  ps -ef | grep '[p]asswd'; ps -eo ruid,euid,pid,comm | grep '[p]asswd'
+   31  printf '%s\\n' 'Search: real UID nonzero and effective UID zero; none found.' 'Fallback: passwd was started in another terminal and sampled while prompting for the current password.' 'Observed passwd credentials: RUID=1000 EUID=1000; this build drops elevated EUID during the password prompt.' >> /mnt/mephi_artifacts/processes.out; history > /mnt/mephi_artifacts/history-current.out; cat /mnt/mephi_artifacts/history.out /mnt/mephi_artifacts/history-current.out > /mnt/mephi_artifacts/history.out.tmp && mv /mnt/mephi_artifacts/history.out.tmp /mnt/mephi_artifacts/history.out; cat /mnt/mephi_artifacts/processes.out
+    1  id; whoami; getent passwd user1; getent group students; mount | grep " on / "
+    2  mount -o remount,rw /; mount -t proc proc /proc; test -w /etc/passwd && echo rootfs-writable; command -v useradd groupadd chage setcap getcap visudo timedatectl runuser
+    3  if getent passwd 1234; then echo UID_1234_IN_USE; else groupadd -f students && groupadd -f user1 && useradd -m -u 1234 -g students -s /bin/bash user1 && usermod -a -G user1 user1 && chage -M 90 user1; fi; id user1; getent passwd user1; getent group students; chage -l user1
+    4  runuser -u danila -- /usr/bin/passwd >/tmp/passwd-monitor.log 2>&1 & sleep 1; { echo 'RUID EUID PID COMMAND'; ps -eo ruid=,euid=,pid=,comm= | awk '$2 == 0 && $1 != 0 {print}' ; } > /home/danila/mephi-linux-security-2026/processes.out; cat /home/danila/mephi-linux-security-2026/processes.out; ps -eo ruid=,euid=,pid=,comm= | awk '$1 == 1000 && $2 == 0 && $4 == \ passwd\ {print $3}' | xargs -r kill
+    5  cat /tmp/passwd-monitor.log; ps -eo ruid,euid,pid,comm | grep '[p]asswd'
+    6  grep -E "^#includedir|^@includedir|^#include" /etc/sudoers; ls -ld /etc/sudoers /etc/sudoers.d 2>&1; command -v timedatectl; ls -l /usr/bin/cat /usr/bin/chown /usr/bin/passwd
+    7  install -m 0755 /bin/cat /home/user1/cat && chown root:user1 /home/user1/cat && chmod 4750 /home/user1/cat && install -m 0755 /bin/chown /home/user1/chown-cap && chown root:user1 /home/user1/chown-cap && chmod 0750 /home/user1/chown-cap && setcap cap_chown=ep /home/user1/chown-cap && touch /home/user1/capability-test && chown user1:students /home/user1/capability-test && runuser -u user1 -- /home/user1/cat /etc/shadow >/dev/null && echo 'setuid cat read /etc/shadow: OK' > /home/danila/mephi-linux-security-2026/setuid-check.out && runuser -u user1 -- /home/user1/cat /etc/shadow | cut -d: -f1 | head -n 3 | sed 's/$/: <hash redacted>/' >> /home/danila/mephi-linux-security-2026/setuid-check.out && runuser -u user1 -- /home/user1/chown-cap root:root /home/user1/capability-test && stat -c 'owner after capability test: %U:%G' /home/user1/capability-test > /home/danila/mephi-linux-security-2026/capability-check.out && chown user1:students /home/user1/capability-test && getcap /home/user1/chown-cap > /home/danila/mephi-linux-security-2026/getcap.out && echo 'done'
+    8  cat /home/danila/mephi-linux-security-2026/setuid-check.out; cat /home/danila/mephi-linux-security-2026/capability-check.out; cat /home/danila/mephi-linux-security-2026/getcap.out; stat /home/user1 /home/user1/cat /home/user1/chown-cap
+    9  grep -n 'includedir' /etc/sudoers; tail -35 /etc/sudoers
+   10  printf '%s\\n' 'user1 ALL=(root) NOPASSWD: /bin/timedatectl' > /etc/sudoers.d/30-user1-time && chmod 0440 /etc/sudoers.d/30-user1-time && visudo -c
+   11  cat -A /etc/sudoers.d/30-user1-time; ls -l /bin/timedatectl /usr/bin/timedatectl 2>&1
+   12  echo 'user1 ALL=(ALL) NOPASSWD: /usr/bin/timedatectl' > /etc/sudoers.d/30-user1-time && chmod 0440 /etc/sudoers.d/30-user1-time && visudo -c
+   13  chmod 0400 /etc/sudoers.d/30-user1-time && visudo -c -f /etc/sudoers.d/30-user1-time; stat -c '%a %n' /etc/sudoers.d/30-user1-time /etc/sudoers.d/99-sudopw; sudo -l -U user1
+   14  grep -i vbox /proc/modules; find /lib/modules/ -iname 'vboxsf*' 2>/dev/null | head
+   15  grep -i vbox /proc/modules; find /lib/modules/6.12.61-alt1 -iname 'vboxsf*' 2>/dev/null | head
+   16  mkdir -p /mnt/mephi_artifacts && modprobe vboxsf && mount -t vboxsf mephi_artifacts /mnt/mephi_artifacts && touch /mnt/mephi_artifacts/vbox-share-test && ls -la /mnt/mephi_artifacts
+   17  find / -xdev -type f -perm -4000 -print 2>/dev/null | sort > /mnt/mephi_artifacts/files-suid.out; stat /home/user1 > /mnt/mephi_artifacts/stat.out; stat /home/user1/cat >> /mnt/mephi_artifacts/stat.out; stat /home/user1/chown-cap >> /mnt/mephi_artifacts/stat.out; getcap /home/user1/chown-cap > /mnt/mephi_artifacts/getcap.out; cp /etc/passwd /mnt/mephi_artifacts/etc-passwd; cp /etc/group /mnt/mephi_artifacts/etc-group; cp /etc/sudoers /mnt/mephi_artifacts/etc-sudoers; cp /etc/sudoers.d/30-user1-time /mnt/mephi_artifacts/sudoers-user1-time; sed -E 's/:([^:]*):/:<hash-redacted>:/' /etc/shadow > /mnt/mephi_artifacts/etc-shadow.redacted; cp /home/danila/mephi-linux-security-2026/setuid-check.out /mnt/mephi_artifacts/; cp /home/danila/mephi-linux-security-2026/capability-check.out /mnt/mephi_artifacts/; history > /home/danila/history.out; cp /home/danila/history.out /mnt/mephi_artifacts/history.out; ls -l /mnt/mephi_artifacts
+   18  cat /etc/sudoers.d/99-sudopw; stat -c "%F %a %U:%G %n" /etc/sudoers.d/99-sudopw
+   19  chmod 0400 /etc/sudoers.d/99-sudopw && visudo -c
+   20  sync; exec /sbin/init
+   21  mount -o remount,rw /; mount -t proc proc /proc 2>/dev/null || true; modprobe vboxsf; mkdir -p /mnt/mephi_artifacts /home/danila/mephi-linux-security-2026; mount -t vboxsf mephi_artifacts /mnt/mephi_artifacts 2>/dev/null || true; if ! grep -q '^user1:' /mnt/mephi_artifacts/etc-shadow.redacted; then getent shadow user1 | sed -E 's/:([^:]*):/:<hash-redacted>:/' >> /mnt/mephi_artifacts/etc-shadow.redacted; fi; sudo -l -U user1 > /mnt/mephi_artifacts/sudo-check.out 2>&1; visudo -c > /mnt/mephi_artifacts/visudo-check.out 2>&1; cp /mnt/mephi_artifacts/stat.out /home/danila/stat.out; cp /mnt/mephi_artifacts/getcap.out /home/danila/getcap.out; chown danila:danila /home/danila/stat.out /home/danila/getcap.out; passwd -S user1 > /mnt/mephi_artifacts/user1-password-status.out; cat /mnt/mephi_artifacts/sudo-check.out; cat /mnt/mephi_artifacts/visudo-check.out; grep '^user1:' /mnt/mephi_artifacts/etc-shadow.redacted
+   22  history >> /mnt/mephi_artifacts/history.out; cp /mnt/mephi_artifacts/history.out /home/danila/history.out; cp /mnt/mephi_artifacts/files-suid.out /home/danila/files-suid.out; cp /mnt/mephi_artifacts/processes.out /home/danila/processes.out; cp /mnt/mephi_artifacts/getcap.out /home/danila/getcap.out; cp /mnt/mephi_artifacts/stat.out /home/danila/stat.out; cp /mnt/mephi_artifacts/etc-passwd /home/danila/passwd.out; cp /mnt/mephi_artifacts/etc-group /home/danila/group.out; chown danila:danila /home/danila/history.out /home/danila/files-suid.out /home/danila/processes.out /home/danila/getcap.out /home/danila/stat.out /home/danila/passwd.out /home/danila/group.out; sync; tail -5 /mnt/mephi_artifacts/sudo-check.out; tail -5 /mnt/mephi_artifacts/visudo-check.out

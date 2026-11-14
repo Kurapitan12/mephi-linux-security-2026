@@ -1,0 +1,15 @@
+/home/user1/cat
+/usr/bin/Xorg
+/usr/bin/fusermount3
+/usr/bin/mount
+/usr/bin/nvidia-modprobe
+/usr/bin/pkexec
+/usr/bin/su
+/usr/bin/sudo
+/usr/bin/sudoreplay
+/usr/bin/umount
+/usr/lib/dbus-1/dbus-daemon-launch-helper
+/usr/lib64/chromium/chrome-sandbox
+/usr/libexec/polkit-1/polkit-agent-helper-1
+/usr/libexec/spice-gtk/spice-client-glib-usb-acl-helper
+/usr/sbin/hddtemp

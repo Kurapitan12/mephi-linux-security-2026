@@ -1,0 +1,5 @@
+Command: ps -eo ruid,euid,pid,comm filtered for EUID 0 and RUID nonzero
+Result: no matching processes found.
+Fallback: passwd was started in a second terminal and sampled during its password prompt.
+Sample from ps -eo ruid,euid,pid,comm: 1000 1000 2009 passwd
+The passwd process had EUID 1000 while prompting; this build drops its elevated EUID at that stage.

@@ -1,0 +1,58 @@
+root:x:0:0:System Administrator:/root:/bin/bash
+bin:x:1:1:bin:/:/dev/null
+daemon:x:2:2:daemon:/:/dev/null
+adm:x:3:4:adm:/var/adm:/dev/null
+lp:x:4:7:lp:/var/spool/lpd:/dev/null
+mail:x:8:12:mail:/var/spool/mail:/dev/null
+news:x:9:13:news:/var/spool/news:/dev/null
+uucp:x:10:14:uucp:/var/spool/uucp:/dev/null
+games:x:12:100:games:/usr/games:/dev/null
+ftp:x:14:50:FTP User:/var/ftp:/dev/null
+squid:x:23:23:Squid User:/var/spool/squid:/dev/null
+named:x:25:25:Bind User:/var/lib/named:/dev/null
+nscd:x:28:28:NSCD Daemon:/:/dev/null
+rpcuser:x:29:29:RPC Service User:/var/lib/nfs:/dev/null
+rpc:x:32:32:Portmapper RPC user:/:/dev/null
+mailman:x:41:41:GNU Mailing List Manager:/usr/share/mailman:/dev/null
+postfix:x:42:42:Postfix Mail Transport Agent:/var/spool/postfix:/dev/null
+popa3d:x:43:43:POP3 daemon:/dev/null:/dev/null
+xfs:x:44:44:X Font Server:/etc/X11/fs:/dev/null
+mysql:x:45:45:MySQL server:/var/lib/mysql:/dev/null
+postgres:x:46:46:PostgreSQL Server:/var/lib/pgsql:/dev/null
+gdm:x:47:47:GDM:/var/lib/gdm:/dev/null
+ldap:x:55:55:LDAP User:/var/lib/ldap:/dev/null
+exim:x:79:79:Exim Mail Transport Agent:/var/spool/exim:/dev/null
+apache:x:96:96:Apache web server:/var/www:/dev/null
+_nobody99:x:99:99:Nobody:/dev/null:/dev/null
+nobody:x:65534:65534:Linux Kernel overflowuid:/dev/null:/dev/null
+messagebus:x:999:999:D-Bus System User:/run/dbus:/dev/null
+_avahi:x:998:998:Avahi service:/var/run/avahi-daemon:/dev/null
+_autoipd:x:997:995:Avahi autoipd service:/var/lib/autoipd:/dev/null
+_dnsmasq:x:996:994::/dev/null:/dev/null
+osec:x:995:993::/dev/null:/dev/null
+_dhcpcd:x:994:992:dhcpcd user:/var/lib/dhcpcd:/dev/null
+_teamd:x:993:988:teamd user:/dev/null:/dev/null
+_chrony:x:992:986:Chrony User:/var/lib/chrony:/dev/null
+slocate:x:991:21::/dev/null:/dev/null
+polkitd:x:990:983:User for polkitd:/:/dev/null
+rtkit:x:989:982:RealtimeKit:/proc:/sbin/nologin
+colord:x:988:973:User for colord:/var/colord:/dev/null
+geoclue:x:987:970:User for GeoClue service:/var/lib/geoclue:/dev/null
+usbmux:x:986:969:USB Multiplex Daemon:/var/empty:/dev/null
+pipewire:x:985:968:PipeWire System Daemon:/:/dev/null
+tss:x:984:967:TPM2 Software Stack User:/var/empty:/dev/null
+davfs2:x:983:964::/:/bin/false
+systemd-oom:x:982:962:systemd Userspace OOM Killer:/var/empty:/dev/null
+_ldm:x:981:961:LightDM daemon:/var/lib/ldm:/bin/false
+nfsuser:x:980:960:NFS Service User:/dev/null:/dev/null
+_xfsscrub:x:979:959:Special User for the XFS Scrub service:/:/bin/false
+_wsdd:x:978:958:Web Service Discovery host daemon:/:/sbin/nologin
+nm-openconnect:x:977:957:NetworkManager user for OpenConnect:/var/lib/nm-openconnect:/sbin/nologin
+openvpn:x:976:956:OpenVPN daemon:/dev/null:/dev/null
+ntpd:x:975:954::/dev/null:/dev/null
+pesign:x:974:953:PE-COFF signing service:/var/empty:/dev/null
+sshd:x:973:952::/var/empty:/dev/null
+iputils:x:972:948::/dev/null:/dev/null
+fwupd-refresh:x:945:945:Firmware update daemon:/var/lib/fwupd:/sbin/nologin
+danila:x:1000:1000:danila,,,:/home/danila:/bin/bash
+user1:x:1234:1001::/home/user1:/bin/bash
